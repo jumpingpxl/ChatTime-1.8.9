@@ -28,8 +28,9 @@ public class MessageModifyChatListener implements MessageModifyChatEvent {
 		String chatTimePrefix = "";
 		try {
 			chatTimePrefix = jumpingAddon.getSettings().translateAlternateColorCodes('&', jumpingAddon.getSettings().
-					getChatTimePrefix()).replace("%time%", new SimpleDateFormat(jumpingAddon.getSettings().stripColor('&',
-					jumpingAddon.getSettings().getChatTimeFormat())).format(new Date(System.currentTimeMillis())));
+					getChatTimePrefix()).replace("%time%", new SimpleDateFormat(jumpingAddon.getSettings()
+					.stripColor('&', jumpingAddon.getSettings().getChatTimeFormat()))
+					.format(new Date(System.currentTimeMillis())));
 		} catch (IllegalArgumentException e){
 			e.printStackTrace();
 		}
