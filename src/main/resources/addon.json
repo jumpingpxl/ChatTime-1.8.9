@@ -1,7 +1,7 @@
 {
   "uuid": "%uuid%",
   "author": "JumpingPxl",
-  "name": "JumpingChatTime",
+  "name": "ChatTime",
   "mainClass": "de.jumpingpxl.labymod.chattime.JumpingAddon",
   "description": "A small addon to display the current time in front of every message.",
   "version": 1,
