@@ -18,7 +18,7 @@ import java.util.List;
 public class JumpingAddon extends LabyModAddon {
 
 	private Settings settings;
-	private String version = "1.0";
+	private String version = "2";
 
 	@Override
 	public void onEnable() {
