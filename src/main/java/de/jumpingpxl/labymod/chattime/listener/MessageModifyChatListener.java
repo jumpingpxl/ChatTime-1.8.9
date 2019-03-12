@@ -2,7 +2,9 @@ package de.jumpingpxl.labymod.chattime.listener;
 
 import de.jumpingpxl.labymod.chattime.JumpingAddon;
 import net.labymod.api.events.MessageModifyChatEvent;
+import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.IChatComponent;
 
 import java.text.SimpleDateFormat;
@@ -23,17 +25,25 @@ public class MessageModifyChatListener implements MessageModifyChatEvent {
 
 	@Override
 	public Object onModifyChatMessage(Object object) {
-		if(!jumpingAddon.getSettings().isEnabledChatTime())
+		if (!jumpingAddon.getSettings().isEnabledChatTime())
 			return object;
-		String chatTimePrefix = "";
+		String time = "";
 		try {
-			chatTimePrefix = jumpingAddon.getSettings().translateAlternateColorCodes('&', jumpingAddon.getSettings().
-					getChatTimePrefix()).replace("%time%", new SimpleDateFormat(jumpingAddon.getSettings()
-					.stripColor('&', jumpingAddon.getSettings().getChatTimeFormat()))
-					.format(new Date(System.currentTimeMillis())));
-		} catch (IllegalArgumentException e){
+			time = new SimpleDateFormat(jumpingAddon.getSettings().stripColor('&',
+					jumpingAddon.getSettings().getChatTimeFormat())).format(new Date(System.currentTimeMillis()));
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
-		return new ChatComponentText(chatTimePrefix).appendSibling((IChatComponent) object);
+		ChatComponentText chatComponent = new ChatComponentText(jumpingAddon.getSettings().
+				translateAlternateColorCodes('&', jumpingAddon.getSettings().getChatTimeStyle()).replace("%time%", time));
+		if (jumpingAddon.getSettings().isEnabledHover())
+			chatComponent.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ChatComponentText(jumpingAddon.getSettings().translateAlternateColorCodes('&',
+							jumpingAddon.getSettings().getHoverStyle()).replace("%time%", time)))));
+		if (jumpingAddon.getSettings().isBeforeMessage())
+			return new ChatComponentText("").setChatStyle(new ChatStyle()).appendSibling(chatComponent).
+					appendSibling((IChatComponent) object);
+		else
+			return ((IChatComponent) object).appendSibling(chatComponent);
 	}
 }
