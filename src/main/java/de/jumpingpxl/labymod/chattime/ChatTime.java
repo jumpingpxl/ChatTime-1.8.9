@@ -2,7 +2,6 @@ package de.jumpingpxl.labymod.chattime;
 
 import de.jumpingpxl.labymod.chattime.listener.MessageModifyChatListener;
 import de.jumpingpxl.labymod.chattime.util.Settings;
-import lombok.Getter;
 import net.labymod.api.LabyModAddon;
 import net.labymod.settings.elements.SettingsElement;
 
@@ -14,21 +13,17 @@ import java.util.List;
  * @project LabyMod-Addon: ChatTime-1.8.9
  */
 
-@Getter
-public class JumpingAddon extends LabyModAddon {
+public class ChatTime extends LabyModAddon {
+
+	private static final String VERSION = "4";
 
 	private Settings settings;
-	private String version = "2";
 
 	@Override
 	public void onEnable() {
 		settings = new Settings(this);
-		getApi().getEventManager().register(new MessageModifyChatListener(this));
-	}
 
-	@Override
-	public void onDisable() {
-
+		getApi().getEventManager().register(new MessageModifyChatListener(settings));
 	}
 
 	@Override
@@ -39,5 +34,9 @@ public class JumpingAddon extends LabyModAddon {
 	@Override
 	protected void fillSettings(List<SettingsElement> settingsElements) {
 		settings.fillSettings(settingsElements);
+	}
+
+	public String getVersion() {
+		return VERSION;
 	}
 }
